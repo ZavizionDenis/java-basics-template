@@ -13,7 +13,13 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int compare(int value1, int value2) {
-        return -2;
+        if (value1 > value2) {
+            return 1;
+        }
+        if (value1 < value2) {
+            return -1;
+        }
+        return 0;
     }
 
     /**
@@ -22,7 +28,13 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int maxFrom(int value1, int value2) {
-        return -1;
+        if (value1 > value2) {
+            return value1;
+        }
+        if (value1 < value2) {
+            return value2;
+        }
+        return value1; // На случай равенства, но в условии не сказано.
     }
 
     /**
@@ -31,7 +43,13 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int maxFrom(int[] values) {
-        return -1;
+        int max = values[0];
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] > max) {
+                max = values[i];
+            }
+        }
+        return max;
     }
 
     /**
@@ -40,7 +58,11 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int sum(int[] values) {
-        return -1;
+        int sum = 0;
+        for (int i : values) {
+            sum += i;
+        }
+        return sum;
     }
 
     /**
@@ -49,7 +71,27 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] getEvenDigits(int[] values) {
-        return new int[]{};
+        int j = 0;
+        for (int i : values) {
+            if (i % 2 == 0) {
+                j++;
+            }
+        }
+        if (j == 0) {
+            return new int[]{};
+        }
+        int evenDigits[] = new int[j];
+        int nextEvenDigitsIndex = 0;
+        for (j = 0; j < evenDigits.length; j++) {
+            for (int i = nextEvenDigitsIndex; i < values.length; i++) {
+                if (values[i] % 2 == 0) {
+                    nextEvenDigitsIndex = i + 1;
+                    evenDigits[j] = values[i];
+                    break;
+                }
+            }
+        }
+        return evenDigits;
     }
 
     /**
@@ -59,7 +101,17 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public long calcFactorial(int initialVal) {
-        return -1L;
+        if (initialVal > 0) {
+            long factorial = 1;
+            for (int i = 1; i <= initialVal; i++) {
+                factorial *= i;
+            }
+            return factorial;
+        }
+        if (initialVal == 0) {
+            return 1L;
+        }
+        return -1L; // Если поступит отрицательное число, в условии не сказано.
     }
 
     /**
@@ -74,7 +126,15 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public long calcFibonacci(int number) {
-        return -1L;
+        long n1 = 0;
+        long n2 = 1;
+        long fibonachi = 0;
+        for (int i = 0; i < number; i++) {
+            fibonachi = n2 + n1;
+            n2 = n1;
+            n1 = fibonachi;
+        }
+        return fibonachi;
     }
 
     /**
@@ -83,7 +143,16 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] sort(int[] values) {
-        return new int[]{};
+        for (int i = values.length - 1; i > 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (values[j] > values[j + 1]) {
+                    int k = values[j];
+                    values[j] = values[j + 1];
+                    values[j + 1] = k;
+                }
+            }
+        }
+        return values;
     }
 
     /**
@@ -94,7 +163,14 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public boolean isPrimary(int number) {
-        return false;
+        boolean b = true;
+        for (int i = 2; i <= number / 2; i++) {
+            if (number % i == 0) {
+                b = false;
+                break;
+            }
+        }
+        return b;
     }
 
     /**
@@ -104,6 +180,11 @@ public class SimpleMathService implements MathService {
      */
     @Override
     public int[] reverseArray(int[] values) {
-        return new int[]{};
+        for (int i = 0; i < values.length / 2; i++) {
+            int j = values [i];
+            values [i] = values[values.length - 1 - i];
+            values[values.length - 1 - i] = j;
+        }
+        return values;
     }
 }
